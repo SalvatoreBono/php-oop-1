@@ -2,6 +2,9 @@
 /* importare il file classes */
 require_once __DIR__ . "/models/Movie.php";
 
+/* importare il file db */
+require_once __DIR__ . "/db/db.php";
+
 /* creiamo l'istanza 1 */
 /*mettere l'argomento obbligatorio*/
 $movie1 = new Movie("Oppenheimer");
@@ -13,7 +16,7 @@ echo $movie1->getFullInfoMovie();
 
 /* creiamo l'istanza 2 */
 $movie2 = new Movie("Spider-Man: Across the Spider-Verse");
-$movie2->releaseDate = "2 giugno 2023 ";
+$movie2->releaseDate = "2 giugno 2023";
 $movie2->duration = "2h 20m";
 var_dump($movie2);
 echo $movie2->getFullInfoMovie();
@@ -21,11 +24,18 @@ echo $movie2->getFullInfoMovie();
 
 /* creiamo l'istanza 3 */
 $movie3 = new Movie("The Bear");
-$movie3->releaseDate = "23 giugno 2022 ";
+$movie3->releaseDate = "23 giugno 2022";
 $movie3->duration = "18 puntate";
 var_dump($movie3);
 echo $movie3->getFullInfoMovie();
 
+$moviesList = array_map(function ($el) {
+    $Movie = new Movie($el['title']);
+    $Movie->releaseDate = $el["releaseDate"];
+    $Movie->duration = $el["duration"];
+
+    return $Movie;
+}, $Movies);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,7 +53,19 @@ echo $movie3->getFullInfoMovie();
 </head>
 
 <body>
-    <div id="app"></div>
+    <div class="pt-5" id="app">
+        <ul class="list-group">
+            <?php
+            foreach ($moviesList as $singleMovie) {
+            ?>
+                <li class="list-group-item"><?php echo $singleMovie->title . " - " .  $singleMovie->releaseDate . " - " .  $singleMovie->duration ?></li>
+            <?php
+
+            }
+            ?>
+        </ul>
+    </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <script src="js/main.js"></script>
 </body>
