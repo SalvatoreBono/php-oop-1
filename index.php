@@ -29,12 +29,15 @@ $movie3->duration = "18 puntate";
 var_dump($movie3);
 echo $movie3->getFullInfoMovie();
 
+/* moviesList conterrà la nuova array */
 $moviesList = array_map(function ($el) {
+    /* creiamo l'istanza */
     $Movie = new Movie($el['title']);
     $Movie->releaseDate = $el["releaseDate"];
     $Movie->duration = $el["duration"];
 
     return $Movie;
+    /* $Movies array da cui estrarre i dati */
 }, $Movies);
 ?>
 <!DOCTYPE html>
